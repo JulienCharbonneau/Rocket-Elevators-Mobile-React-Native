@@ -1,34 +1,58 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
-import { isEmail } from 'validator';
+import { View, TextInput, Button, Text } from 'react-native';
+import axios from 'axios';
+import validator from 'validator';
 
-
-const Login = () => {
+const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
-  const handleLogin = () => {
-    if (!isEmail(email)) {
-      alert("Not a valid email.")
+  const handleLogin = async () => {
+    // reset the error message
+    setError(null);
+
+    // validate the email address
+    if (!validator.isEmail(email)) {
+      setError('Please enter a valid email address');
       return;
     }
-  
-    // the email is valid, send a request to the server to verify the email and password
+
+    try {
+      // send a GET request to the API endpoint to check the email
+      const response = await axios.get(
+        `https://6236-209-226-0-76.ngrok.io/api/Employee/CheckEmail`,
+        {
+          params: {
+            email: email,
+          },
+        }
+      );
+
+      // check if the email exists
+      if (response.data) {
+        // the email exists, navigate to the next screen
+        navigation.navigate('Home');
+      } else {
+        // the email does not exist, show an error message
+        setError('Invalid email');
+      }
+    } catch (error) {
+      console.error(error);
+      setError('An error occurred while checking the email');
+      console.log(error.message);
+    }
   };
 
   return (
     <View>
+      {error && <Text>{error}</Text>}
       <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="Email"
-      />
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
+       value={email}
+         onChangeText={(text) => setEmail(text)}
+
+         placeholder="Email"
+/>
+    
       <Button title="Login" onPress={handleLogin} />
     </View>
   );
