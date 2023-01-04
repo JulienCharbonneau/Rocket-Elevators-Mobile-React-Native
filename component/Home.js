@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, Button } from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+
 
 const Home = () => {
+  const navigation = useNavigation();
   const [elevatorStatusList, setElevatorStatusList] = useState([]);
 
   useEffect(() => {
@@ -10,9 +13,8 @@ const Home = () => {
       try {
         // send a GET request to the API endpoint to get a list of elevator statuses
         const response = await axios.get(
-          `https://5863-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
+          `https://be27-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
         );
-        console.log("-----------test------------", response.data);
         setElevatorStatusList(response.data);
       } catch (error) {
         console.error(error);
@@ -28,14 +30,27 @@ const Home = () => {
       <FlatList
         data={elevatorStatusList}
         keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
+        renderItem={({ item }) => ( // item represent an elevator
           <View style={{ alignItems: 'center' }}>
             <Text style={{ fontSize: 16, textAlign: 'center' }}>
               {`Elevator id: ${item.id} status: ${item.status}`}
             </Text>
+
+         
           </View>
         )}
       />
+         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+         <Button
+  title="Logout"
+  onPress={() => navigation.navigate('Login')}
+  color="red"
+  backgroundColor="red"
+/>
+
+
+
+      </View>
     </View>
   );
 };
