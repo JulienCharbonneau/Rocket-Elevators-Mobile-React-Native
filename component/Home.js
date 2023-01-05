@@ -5,10 +5,19 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-// Button
-const onElevatorPress = (elevator) => {
+
+
+
+const Home = () => {
+  const navigation = useNavigation();
+  const [elevatorStatusList, setElevatorStatusList] = useState([]);
+
+ // Button
+const onElevatorPress = (elevator ) => {
+  navigation.navigate('ElevatorStatusScreen');
   console.log("onElevatorPress elevator:", elevator);
 }
+
 const Item = ({ elevator }) => {
   console.log("id is:", elevator);
 
@@ -22,17 +31,12 @@ const Item = ({ elevator }) => {
 };
 // button end
 
-
-const Home = () => {
-  const navigation = useNavigation();
-  const [elevatorStatusList, setElevatorStatusList] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         // send a GET request to the API endpoint to get a list of elevator statuses
         const response = await axios.get(
-          `https://59ef-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
+          `https://bd0f-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
         );
         setElevatorStatusList(response.data);
       } catch (error) {
@@ -55,17 +59,16 @@ const Home = () => {
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
+
+
          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
          <Button
-  title="Logout"
-  onPress={() => navigation.navigate('Login')}
-  color="red"
-  backgroundColor="red"
-/>
-
-
-
-      </View>
+           title="Logout"
+           onPress={() => navigation.navigate('Login')}
+           color="red"
+           backgroundColor="red"
+          />
+         </View>
     </View>
   );
 };
