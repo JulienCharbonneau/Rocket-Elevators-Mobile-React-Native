@@ -1,17 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
+import { View, Text, Button,Image } from 'react-native';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+
+function Status() {
+  const route = useRoute();
+  const elevatorData = route.params.elevatorData;
+  const navigation = useNavigation();
+  const [elevatorStatus, setElevatorStatus] = useState(elevatorData.status);
+  const [elevatorId, setElevatorId] = useState(elevatorData.id);
 
 
 
- const ElevatorStatusScreen = () => {
+  const changeStatus = async (id) => {
+    try {
+      const response = await axios.post(
+        `https://9f22-209-226-0-76.ngrok.io/api/Elevator/UpdateStatusElevatorById?id=${id}&status=online`
+      );
+      setElevatorId(response.data.id);
+      setElevatorStatus(response.data.status);
+      
+      console.log(response.data.status);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    return (
-        <Text>ElevatorStatusScreen</Text>
-    )
- }
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+               <View style={{ position: 'absolute', top: 0, alignItems: 'center', justifyContent: 'center' }}>
+  <Image
+      source={require('../assets/R201-removebg-preview.png')}
+    style={{ width: 300, height: 300 }}
+  />
+</View>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <Text style={{fontSize:40}}>Elevator id: {elevatorData.id} </Text>
+        <Text style={{fontSize:30}}>Elevator serial number: {elevatorData.serialNumber} </Text>
+        <Text style={{fontSize:30}}>Elevator model: {elevatorData.model} </Text>
 
 
 
-export default ElevatorStatusScreen;
+        {elevatorStatus === 'online' ? ( // if status is  online  the text is  write in green else in red
+          <Text style={{ color: 'green',fontSize:30 }}>Elevator status: {elevatorStatus}</Text>
+        ) : (
+          <Text style={{ color: 'red',fontSize:30 }}>Elevator status: {elevatorStatus}</Text>
+        )}
+        {elevatorStatus !== 'online' && (
+          <Button
+            title="Change Status"
+            onPress={() => changeStatus(elevatorId)} />
+
+        )}
+
+        {elevatorStatus === 'online' && (
+          <Button
+          color="#808080"
+            backgroundColor="#808080"
+            title="Return to Home"
+            style={{ display: elevatorStatus != 'online' ? 'flex' : 'none'}}
+            onPress={() => navigation.navigate('Home')} />
+        )}
+      </View>
+
+
+     
+
+    </View>
+  );
+}
+
+
+
+
+
+
+
+export default Status;
