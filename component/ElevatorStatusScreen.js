@@ -40,7 +40,16 @@ const ElevatorStatusScreen = () => { // retreive Data from api call in the home 
              title="Change Status"
                onPress={() => changeStatus(elevatorId)}
              />
-)}
+             
+              )}
+              
+            {elevatorStatus === 'online' && (
+            <Button
+               title="Return to Home"
+                style={{ display: elevatorStatus != 'online' ? 'flex' : 'none' }}
+                 onPress={() => navigation.navigate('Home')}
+                />
+            )}
         </View>
 
     
