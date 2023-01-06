@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button } from 'react-native';
+import { View, Text, FlatList,BackHandler, Button } from 'react-native';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -9,6 +9,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 const Home = ({ navigation }) => {
+
+useEffect(()=>{
+  
+ 
+},[navigation])
+
   // const navigation = useNavigation();
   const [elevatorStatusList, setElevatorStatusList] = useState([]);
 
@@ -31,11 +37,11 @@ const Item = ({ elevator }) => {
 // button end
 useEffect(() => {
   const focusHandler = navigation.addListener('focus', () => {
-      alert('Refreshed');
       fetchData();
   });
   return focusHandler;
 }, [navigation]);
+
 
 
 const fetchData = async () => {
@@ -68,7 +74,10 @@ const fetchData = async () => {
          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
          <Button
            title="Logout"
-           onPress={() => navigation.navigate('Login')}
+           onPress={() =>  navigation.reset({
+            index: 0,
+            routes: [{ name: 'Login' }],
+          })}
            color="red"
            backgroundColor="red"
           />

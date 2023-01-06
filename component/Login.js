@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import axios from 'axios';
 import validator from 'validator';
@@ -6,6 +6,7 @@ import validator from 'validator';
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
+
 
   const handleLogin = async () => {
     // reset the error message
@@ -31,7 +32,7 @@ const Login = ({ navigation }) => {
       // check if the email exists
       if (response.data) {
         // the email exists, navigate to the next screen
-        navigation.navigate('Home');
+        navigation.replace('Home');
       } else {
         // the email does not exist, show an error message
         setError('Invalid email');

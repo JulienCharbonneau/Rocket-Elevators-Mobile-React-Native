@@ -54,14 +54,7 @@ function ElevatorStatusScreen() {
       </View>
 
 
-      {/* // logout button */}
-      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <Button
-          title="Logout"
-          onPress={() => navigation.navigate('Login')}
-          color="red"
-          backgroundColor="red" />
-      </View>
+     
 
     </View>
   );
