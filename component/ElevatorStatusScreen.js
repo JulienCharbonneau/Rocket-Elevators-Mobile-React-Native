@@ -1,4 +1,4 @@
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button,Image } from 'react-native';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
@@ -29,6 +29,12 @@ function Status() {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+               <View style={{ position: 'absolute', top: 0, alignItems: 'center', justifyContent: 'center' }}>
+  <Image
+      source={require('../assets/R201-removebg-preview.png')}
+    style={{ width: 300, height: 300 }}
+  />
+</View>
       <View style={{ flex: 1, justifyContent: 'center' }}>
         <Text style={{fontSize:40}}>Elevator id: {elevatorData.id} </Text>
         <Text style={{fontSize:30}}>Elevator serial number: {elevatorData.serialNumber} </Text>
@@ -50,6 +56,8 @@ function Status() {
 
         {elevatorStatus === 'online' && (
           <Button
+          color="#808080"
+            backgroundColor="#808080"
             title="Return to Home"
             style={{ display: elevatorStatus != 'online' ? 'flex' : 'none'}}
             onPress={() => navigation.navigate('Home')} />
