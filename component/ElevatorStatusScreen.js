@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 
-function ElevatorStatusScreen() {
+function Status() {
   const route = useRoute();
   const elevatorData = route.params.elevatorData;
   const navigation = useNavigation();
@@ -28,15 +28,18 @@ function ElevatorStatusScreen() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Text>Elevator id: {elevatorData.id} </Text>
-        <Text>Elevator serial number: {elevatorData.serialNumber} </Text>
-        <Text>Elevator model: {elevatorData.model} </Text>
+        <Text style={{fontSize:40}}>Elevator id: {elevatorData.id} </Text>
+        <Text style={{fontSize:30}}>Elevator serial number: {elevatorData.serialNumber} </Text>
+        <Text style={{fontSize:30}}>Elevator model: {elevatorData.model} </Text>
+
+
+
         {elevatorStatus === 'online' ? ( // if status is  online  the text is  write in green else in red
-          <Text style={{ color: 'green' }}>Elevator status: {elevatorStatus}</Text>
+          <Text style={{ color: 'green',fontSize:30 }}>Elevator status: {elevatorStatus}</Text>
         ) : (
-          <Text style={{ color: 'red' }}>Elevator status: {elevatorStatus}</Text>
+          <Text style={{ color: 'red',fontSize:30 }}>Elevator status: {elevatorStatus}</Text>
         )}
         {elevatorStatus !== 'online' && (
           <Button
@@ -48,7 +51,7 @@ function ElevatorStatusScreen() {
         {elevatorStatus === 'online' && (
           <Button
             title="Return to Home"
-            style={{ display: elevatorStatus != 'online' ? 'flex' : 'none' }}
+            style={{ display: elevatorStatus != 'online' ? 'flex' : 'none'}}
             onPress={() => navigation.navigate('Home')} />
         )}
       </View>
@@ -66,4 +69,4 @@ function ElevatorStatusScreen() {
 
 
 
-export default ElevatorStatusScreen;
+export default Status;

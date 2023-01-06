@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList,BackHandler, Button } from 'react-native';
+import { View, Text, FlatList,BackHandler, Button,Image } from 'react-native';
 import axios from 'axios';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -20,7 +20,7 @@ useEffect(()=>{
 
  // Button
 const onElevatorPress = (elevator ) => {
-  navigation.navigate('ElevatorStatusScreen',{ elevatorData: elevator, updateStatusList: setElevatorStatusList });
+  navigation.navigate('Status',{ elevatorData: elevator, updateStatusList: setElevatorStatusList });
 }
 
 const Item = ({ elevator }) => {
@@ -28,6 +28,7 @@ const Item = ({ elevator }) => {
 
   return (
     <Button
+    style={{ width: 300, height: 400, margin:50, padding:20 }}
       title={elevator.id.toString()}
       onPress={() => onElevatorPress(elevator)}
     />
@@ -58,20 +59,29 @@ const fetchData = async () => {
  
 
   const renderItem = ({ item }) => (
-    <Item elevator={item} />
+    <Item elevator={item}
+     />
   );
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+         <View style={{ position: 'absolute', top: 0, alignItems: 'center', justifyContent: 'center' }}>
+  <Image
+      source={require('../assets/R201-removebg-preview.png')}
+    style={{ width: 300, height: 300 }}
+  />
+</View>
+      <View style={{position: 'absolute', top: 300, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text style={{ fontSize: 20, textAlign: 'center' }}>Elevators not in operation</Text>
       <FlatList
+      style={{width:400}}
         data={elevatorStatusList}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
+      </View>
 
-
-         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+         <View style={{ flex: 1, justifyContent: 'flex-end',margin:20 }}>
          <Button
            title="Logout"
            onPress={() =>  navigation.reset({
