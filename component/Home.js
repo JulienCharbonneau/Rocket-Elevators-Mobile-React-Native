@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Button } from 'react-native';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 
 
 
 
 
-const Home = () => {
-  const navigation = useNavigation();
+const Home = ({ navigation }) => {
+  // const navigation = useNavigation();
   const [elevatorStatusList, setElevatorStatusList] = useState([]);
 
  // Button
 const onElevatorPress = (elevator ) => {
-  navigation.navigate('ElevatorStatusScreen',{ elevatorData: elevator });
+  navigation.navigate('ElevatorStatusScreen',{ elevatorData: elevator, updateStatusList: setElevatorStatusList });
 }
 
 const Item = ({ elevator }) => {
@@ -29,22 +29,27 @@ const Item = ({ elevator }) => {
   );
 };
 // button end
+useEffect(() => {
+  const focusHandler = navigation.addListener('focus', () => {
+      alert('Refreshed');
+      fetchData();
+  });
+  return focusHandler;
+}, [navigation]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // send a GET request to the API endpoint to get a list of elevator statuses
-        const response = await axios.get(
-          `https://9f22-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
-        );
-        setElevatorStatusList(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    fetchData();
-  }, []);
+const fetchData = async () => {
+  try {
+    // send a GET request to the API endpoint to get a list of elevator statuses
+    const response = await axios.get(
+      `https://9f22-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
+    );
+    setElevatorStatusList(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+ 
 
   const renderItem = ({ item }) => (
     <Item elevator={item} />
