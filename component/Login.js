@@ -20,7 +20,7 @@ const Login = ({ navigation }) => {
     try {
       // send a GET request to the API endpoint to check the email
       const response = await axios.get(
-        `https://bd0f-209-226-0-76.ngrok.io/api/Employee/CheckEmail`,
+        `https://9f22-209-226-0-76.ngrok.io/api/Employee/CheckEmail`,
         {
           params: {
             email: email,

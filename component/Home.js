@@ -14,8 +14,7 @@ const Home = () => {
 
  // Button
 const onElevatorPress = (elevator ) => {
-  navigation.navigate('ElevatorStatusScreen');
-  console.log("onElevatorPress elevator:", elevator);
+  navigation.navigate('ElevatorStatusScreen',{ elevatorData: elevator });
 }
 
 const Item = ({ elevator }) => {
@@ -36,7 +35,7 @@ const Item = ({ elevator }) => {
       try {
         // send a GET request to the API endpoint to get a list of elevator statuses
         const response = await axios.get(
-          `https://bd0f-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
+          `https://9f22-209-226-0-76.ngrok.io/api/Elevator/GetAllElevatorStatusNotOperation`
         );
         setElevatorStatusList(response.data);
       } catch (error) {
